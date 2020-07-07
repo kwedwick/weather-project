@@ -4,22 +4,23 @@
 
 :root {
     --primary: rgb(31, 29, 29);
-    --secondary:  rgb(236, 219, 236);
+    --secondary:  rgb(190, 241, 248);
     --tertiary: white;
 }
 
 header {
     text-align: center;
-    background-color: rgb(31, 29, 29);
-    color: var(--secondary);
+    background-color: var(--primary);
+    color: white;
     padding: 1px;
     font-size: 2vw;
 }
 html,
 body {
-    background-color: rgb(236, 219, 236);
+    background-color: var(--secondary);
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     height: 100%;
+    width: auto;
 }
 
 h2,
@@ -28,29 +29,65 @@ h3 {
 }
 
 p {
-    font-size: 1vw;
+    font-size: 1.2vw;
 }
 
 .cityinput {
     display: block;
     width: 100%;
     font-size: 1.2vw;
-    background-color: var(--secondary);
-    border-radius: 20px;
+    border-radius: 5px;
     outline: none;
+    border: 1px solid var(--primary)
+}
+
+#searchIcon {
+    font-size: 1.7;
+    text-align: center;
+}
+
+.search-btn {
+    outline: none;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin: 5px;
+}
+
+#trashIcon {
+ font-size: 1.7vw
+}
+
+.delete-btn {
+    outline: none;
+    border: none;
+    padding: 10px 0;
+    border-radius: 20px;
+    margin: 5px;
+    background-color: rgb(184, 92, 92);
+    font-size: 1.2vw;
+    width: 80%;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.delete-btn:hover {
+    outline: none;
+    background-color: rgb(184, 40, 40);;
 }
 
 .btn {
     outline: none;
     border: none;
-    width: 100%;
-    display: block;
+    width: 80%;
     padding: 10px 0;
     font-size: 1.2vw;
     border-radius: 20px;
+    margin: 5px;
 }
 
-.btn:hover {
+.btn:hover,
+.search-btn:hover {
     outline: none;
     background-color: gray;
 }

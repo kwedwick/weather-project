@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Weather Forecast</title>
 </head>
@@ -13,7 +14,7 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    
+
     <main class="main-container">
         <!--need this to take up 1/3 of screen-->
         <div id="searchSection" class="search-column">
@@ -21,11 +22,17 @@
             <form id="user-form" class="user-form-class">
                 <input class="cityinput" name="searchCity" type="text" id="searchCity" autofocus="true"
                     placeholder="search by city name">
-                <button id="searchBtn" type="submit" class="btn">Search</button>
+                <button id="searchBtn" type="submit" class="search-btn">
+                    <span id="searchIcon" class="material-icons">search</span>
+                </button>
             </form>
 
-            <div id="searchHistory" class="searched-history-class">
+            <div id="searchHistoryContainer" class="searched-history-class">
                 <h2>Searched Cities:</h2>
+                <div id="searchHistory"></div>
+                <button id="clearSearch" class="delete-btn" onclick="clearLocalStorage()">
+                    Clear History<span id="trashIcon" class="material-icons">delete_forever</span>
+                </button>
             </div>
 
         </div>

@@ -1,11 +1,12 @@
-var searchHistoryEl = document.getElementById("searchHistory")
-var userFormEl = document.getElementById("user-form")
-var currentWeatherContainerEl = document.getElementById("currentWeatherContainer")
-var weatherForecastEl = document.getElementById("weatherForecast")
-var cityInputEl = document.getElementById("searchCity")
-var forecastContainerEl = document.getElementById("forecastContainer")
-var fivedayEl = document.getElementById("fivedaytext")
-var apiKey = "";
+var searchHistoryEl = document.getElementById("searchHistory");
+var userFormEl = document.getElementById("user-form");
+var currentWeatherContainerEl = document.getElementById("currentWeatherContainer");
+var weatherForecastEl = document.getElementById("weatherForecast");
+var cityInputEl = document.getElementById("searchCity");
+var forecastContainerEl = document.getElementById("forecastContainer");
+var fivedayEl = document.getElementById("fivedaytext");
+var clearSearchEl = document.getElementById("clearSearch");
+var apiKey = "95589736d40336bbc3a73fe4dace76f5";
 var activeCity = "";
 var searchedCities = [];
 
@@ -34,6 +35,7 @@ var getCurrentReport = function (city) {
         if (response.ok) {
             response.json().then(function (data) {
                 activeCity = data.name;
+                cityButtonCreation(data.name)
                 getCoordinates(data);
             })
         } else {
@@ -84,7 +86,7 @@ var displayWeatherReport = function (data) {
     var currentHumidity = data.current.humidity;
     var currentWindSpeed = data.current.wind_speed;
     var currentUvIndex = data.current.uvi;
-    
+
     //checking uv value
     if (currentUvIndex < 4) {
         $(currentUvIndex).addClass("mild-uvi");
@@ -176,29 +178,47 @@ var displayForecastReport = function (data) {
     };
 };
 
-function saveSearchHistory(data) {
-    var city = [{
-        lat = data.coord.lat,
-        lon = data.coord.lon
-    }];
 
-    localStorage.setItem("searched", JSON.stringify(city))
-};
-
-// var storeSearchedCity = function () {
-//store api call function and city name id / this is what we would append it to
-// }
-
-var loadSearchedCity = function () {
-    var city = JSON.parse(localStorage.getItem("city"));
-
-    if (city = []){
-        return
-    };
-
-
-    //if nothing in localStorage, create new object to track all cities
-
+function cityButtonCreation(name) {
+    var cityButton = name;
+    var cityButtonEl = document.createElement("button");
+    cityButtonEl.innerHTML = cityButton;
+    //cityButtonEl.setAttribute("onclick", getCurrentReport(cityButton));
+    cityButtonEl.setAttribute("id", "city-" + cityButton);
+    $(cityButtonEl).addClass("btn");
+    searchHistoryEl.appendChild(cityButtonEl);
 }
 
+//store api call function and city name id / this is what we would append it to
+function saveSearchHistory(data) {
+    var city = data.name;
+    searchedCities.push(city)
+    localStorage.setItem("searched", JSON.stringify(searchedCities));
+};
+
+
+var loadSearchedCity = function () {
+    searchedCities = JSON.parse(localStorage.getItem("searched"));
+
+    if (!searchedCities) {
+        searchedCities = [];
+    } else {
+        for (var i = 0; i < searchedCities.length; i++) {
+            var city = searchedCities[i]
+            console.log("Saved: ", city)
+            cityButtonCreation(city)
+        };
+    };
+
+    //if nothing in localStorage, create new object to track all cities
+}
+
+var clearLocalStorage = function () {
+    localStorage.removeItem("searched");
+    console.log("click")
+    document.location.reload()
+};
+
+//.addEventListener("submit", getCurrentReport)
 userFormEl.addEventListener("submit", citySubmitHandler)
+loadSearchedCity();
