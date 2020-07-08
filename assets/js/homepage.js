@@ -6,7 +6,7 @@ var cityInputEl = document.getElementById("searchCity");
 var forecastContainerEl = document.getElementById("forecastContainer");
 var fivedayEl = document.getElementById("fivedaytext");
 var clearSearchEl = document.getElementById("clearSearch");
-var apiKey = "95589736d40336bbc3a73fe4dace76f5";
+var apiKey = "";
 var activeCity = "";
 var searchedCities = [];
 
@@ -35,8 +35,8 @@ var getCurrentReport = function (city) {
         if (response.ok) {
             response.json().then(function (data) {
                 activeCity = data.name;
-                cityButtonCreation(data.name)
                 getCoordinates(data);
+                cityButtonCreation(data.name)                
             })
         } else {
             alert("Error: " + response.statusText);
@@ -86,21 +86,26 @@ var displayWeatherReport = function (data) {
     var currentHumidity = data.current.humidity;
     var currentWindSpeed = data.current.wind_speed;
     var currentUvIndex = data.current.uvi;
+    $(currentWeatherContainerEl).addClass("current-weather")
 
+    //so I can append a class and then append it to the p element
+    var uvIndexEl = document.createElement("span")
+    uvIndexEl.innerHTML = currentUvIndex;
     //checking uv value
     if (currentUvIndex < 4) {
-        $(currentUvIndex).addClass("mild-uvi");
+        $(uvIndexEl).addClass("mild-uvi");
     } else if (currentUvIndex >= 4 && currentUvIndex < 7) {
-        $(currentUvIndex).addClass("moderate-uvi");
+        $(uvIndexEl).addClass("moderate-uvi");
     } else if (currentUvIndex >= 7) {
-        $(currentUvIndex).addClass("severe-uvi");
+        $(uvIndexEl).addClass("severe-uvi");
     };
+
     //formating icon
     var currentWeatherIcon = "http://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png";
     var WeatherIconImg = document.createElement("img")
     WeatherIconImg.setAttribute("src", currentWeatherIcon);
 
-    console.log("displaying weather", currentTemp, currentHumidity, currentWindSpeed, currentUvIndex, currentWeatherIcon);
+    //console.log("displaying weather", currentTemp, currentHumidity, currentWindSpeed, currentUvIndex, currentWeatherIcon);
 
     //name and date
     var currentCityEl = document.createElement("h2");
@@ -130,7 +135,8 @@ var displayWeatherReport = function (data) {
     //uv index
     var currentUvIndexEl = document.createElement("p");
     //add class
-    currentUvIndexEl.innerHTML = "UV Index: " + currentUvIndex;
+    currentUvIndexEl.innerHTML = "UV Index: ";
+    currentUvIndexEl.appendChild(uvIndexEl);
     currentWeatherContainerEl.appendChild(currentUvIndexEl);
 };
 
@@ -156,7 +162,7 @@ var displayForecastReport = function (data) {
         var forecastWeatherIcon = "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png";
         console.log("this is the icon", forecastWeatherIcon);
         var WeatherIconImgEl = document.createElement("img");
-        //add class?
+        //add class
         WeatherIconImgEl.setAttribute("src", forecastWeatherIcon);
         forecastCardEl.appendChild(WeatherIconImgEl);
 
