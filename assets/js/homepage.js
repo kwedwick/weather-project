@@ -6,7 +6,7 @@ var cityInputEl = document.getElementById("searchCity");
 var forecastContainerEl = document.getElementById("forecastContainer");
 var fivedayEl = document.getElementById("fivedaytext");
 var clearSearchEl = document.getElementById("clearSearch");
-var apiKey = "95589736d40336bbc3a73fe4dace76f5";
+var apiKey = "9";
 var activeCity = "";
 var searchedCities = [];
 
