@@ -31,5 +31,5 @@ Live Webpage: https://kwedwick.github.io/weather-project/
 ## Photo
 Here is the screenshot of the main page
 
-![Image of completed webpage](assets/imgs/final-screenshot.jpg)
+![Image of completed webpage](assets/images/final-screenshot.jpg)
 
