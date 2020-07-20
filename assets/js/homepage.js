@@ -6,7 +6,7 @@ var cityInputEl = document.getElementById("searchCity");
 var forecastContainerEl = document.getElementById("forecastContainer");
 var fivedayEl = document.getElementById("fivedaytext");
 var clearSearchEl = document.getElementById("clearSearch");
-var apiKey = "";
+var apiKey = "2c80a37e26056a8357db3a094aec350e";
 var activeCity = "";
 var searchedCities = [];
 
@@ -16,10 +16,25 @@ var citySubmitHandler = function (event) {
     event.preventDefault();
     var city = cityInputEl.value.trim().toLowerCase();
 
+
     if (city) {
         getCurrentReport(city);
         cityInputEl.value = ""; //clears out city name
         activeCity = "";
+
+        //creates search history button
+        var cityButton = city
+        var cityButtonEl = document.createElement("button");
+        cityButtonEl.innerHTML = cityButton;
+        cityButtonEl.addEventListener("click", function() {
+            getCurrentReport(city)});
+        cityButtonEl.setAttribute("id", "city-" + city);
+        $(cityButtonEl).addClass("btn");
+        searchHistoryEl.appendChild(cityButtonEl);
+
+        //stores search input to localstorage
+        saveSearchHistory(city)
+        //string. charAt(0). toUpperCase()
     } else {
         alert("Please check city spelling")
     }
@@ -36,7 +51,6 @@ var getCurrentReport = function (city) {
             response.json().then(function (data) {
                 activeCity = data.name;
                 getCoordinates(data);
-                cityButtonCreation(data.name)                
             })
         } else {
             alert("Error: " + response.statusText);
@@ -51,7 +65,6 @@ var getCurrentReport = function (city) {
 var getCoordinates = function (data) {
     var lat = data.coord.lat
     var lon = data.coord.lon
-    saveSearchHistory(data)
     getWeatherReport(lat, lon)
 }
 
@@ -185,24 +198,26 @@ var displayForecastReport = function (data) {
 };
 
 
-function cityButtonCreation(name) {
-    var cityButton = name;
-    var cityButtonEl = document.createElement("button");
-    cityButtonEl.innerHTML = cityButton;
-    //cityButtonEl.setAttribute("onclick", getCurrentReport(cityButton));
-    cityButtonEl.setAttribute("id", "city-" + cityButton);
-    $(cityButtonEl).addClass("btn");
-    searchHistoryEl.appendChild(cityButtonEl);
+function cityButtonCreation(city) {
+    var cityButton = city
+        var cityButtonEl = document.createElement("button");
+        cityButtonEl.innerHTML = cityButton;
+        cityButtonEl.addEventListener("click", function() {
+            getCurrentReport(city)});
+        cityButtonEl.setAttribute("id", "city-" + city);
+        $(cityButtonEl).addClass("btn");
+        searchHistoryEl.appendChild(cityButtonEl);
+
 }
 
 //store api call function and city name id / this is what we would append it to
-function saveSearchHistory(data) {
-    var city = data.name;
+function saveSearchHistory(city) {
+    var city = city;
     searchedCities.push(city)
     localStorage.setItem("searched", JSON.stringify(searchedCities));
 };
 
-
+//pulls the local storage to the searched cities Element
 var loadSearchedCity = function () {
     searchedCities = JSON.parse(localStorage.getItem("searched"));
 
@@ -215,8 +230,6 @@ var loadSearchedCity = function () {
             cityButtonCreation(city)
         };
     };
-
-    //if nothing in localStorage, create new object to track all cities
 }
 
 var clearLocalStorage = function () {
